@@ -1,14 +1,14 @@
 version: '2.1'
 orbs:
-  node: circleci/node@5.0.2
+  snyk: snyk/snyk@1.2.3
 jobs:
-  test:
-    executor: node/default
+  build:
+    docker:
+      - image: 'cimg/node:lts'
     steps:
       - checkout
-      - node/install-packages:
-          cache-path: ~/project/node_modules
-          override-ci-command: npm install
-      - run: sudo npm install -g npm@latest
-      - run: npm run test
+      - run: npm ci
+      - snyk/scan:
+          fail-on-issues: false
+          severity-threshold: high
 workflows: null
