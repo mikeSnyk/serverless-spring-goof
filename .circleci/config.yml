@@ -11,3 +11,4 @@ jobs:
           override-ci-command: npm install
       - run: sudo npm install -g npm@latest
       - run: npm run test
+workflows: null
