@@ -1,14 +1,17 @@
-version: '2.1'
+#version: '2.1'
 orbs:
-  snyk: snyk/snyk@1.2.3
+  node: circleci/node@5.0.2
 jobs:
-  build:
+  install-node-example:
     docker:
-      - image: 'cimg/node:lts'
+      - image: 'cimg/base:stable'
     steps:
       - checkout
-      - run: npm ci
-      - snyk/scan:
-          fail-on-issues: false
-          severity-threshold: high
-workflows: null
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: node --version
+workflows:
+  test_my_app:
+    jobs:
+      - install-node-example
